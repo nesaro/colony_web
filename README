@@ -1,0 +1,30 @@
+ColonyDSL web interface
+=======================
+
+REQUIREMENTS
+============
+ * php >= 5.0
+
+INSTALL
+=======
+
+
+USAGE
+=====
+
+EXAMPLE
+-------
+
+LICENSE
+=======
+
+see LICENSE file
+
+ABOUT
+=====
+
+ColonyDSL web interface is a console-to-web interface for ColonyDSL engine
+Copyright (C) 2010 Néstor Arocha Rodríguez (nesaro@gmail.com)
+
+
+
