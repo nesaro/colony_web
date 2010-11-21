@@ -1,6 +1,6 @@
 <?php
 
-    $binary = "/home/nesaro/proyectos/translator/git/bin/clnyiwrapper.sh";
+    $binary = "clnyi.py";
     #echo exec($binary." -t simple-adder -e {\\\"input\\\":\\\"1+1\\\"}");
 
     //if $_POST array if empty:
