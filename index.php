@@ -8,12 +8,17 @@
     if (count($_POST) == 0 && count($_GET) == 0)
     {
         echo exec($binary." -c webindex -p");
+        return;
     }
     if (count($_POST) == 0)
     {
         if (isset($_GET["mode"]) && isset($_GET["app"]) && ($_GET["mode"] == "translate"))
         {
             echo exec($binary." -t webdisplaypage -e {\\\"input\\\":\\\"".$_GET["app"]."\\\"} -o {\\\"output\\\":\\\"stdout\\\"}");
+        }
+        if (isset($_GET["mode"]) && isset($_GET["app"]) && ($_GET["mode"] == "procedure"))
+        {
+            echo exec($binary." -c ".$_GET["app"]." -p ");
         }
 
     }
