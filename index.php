@@ -1,7 +1,15 @@
 <?php
-    //table: users
-    //store in table: user - sessioncookie - date
-    //store in table: sessioncookie -  requestcookie - date
+    include('session.php');
+    $uid = checkSession();
+    if (!$uid)
+    {
+        header('Location:login.php');
+        return;
+    }
+    
+?>
+    <a href="do_logout.php">Logout</a>
+<?php
 
     $binary = "clnyi.py";
     #TODO: protect app from command line injection
@@ -33,7 +41,9 @@
     }
     else
     {
+        $tmpdir = tempnam();
         //generate requestsession directory
+        //store dir in requestsession table
         //store results at directory
         //refresh to result.php?requestsession=value
     }
