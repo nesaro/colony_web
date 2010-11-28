@@ -16,5 +16,5 @@ create TABLE IF NOT EXISTS apprequest
 (
     appsession INT PRIMARY KEY,
     iduser INT NOT NULL,
-    tmppath VARCHAR(80)
+    tmppath VARCHAR(255)
 );

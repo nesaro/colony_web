@@ -41,10 +41,33 @@
     }
     else
     {
-        $tmpdir = tempnam();
         //generate requestsession directory
+        $tmpdir = sys_get_temp_dir();
+        $workdir = $tmpdir."/".$_POST["session"];
+        mkdir($workdir);
         //store dir in requestsession table
+        $query = "INSERT INTO apprequest (appsession, iduser, tmppath) VALUES ('".$_POST["session"]."','".$uid."','".$workdir."')";
+        mysql_query($query) or die(mysql_error());
+
+
+        //generate a $_POST copy, delete session entry
+
+        $mypost = $_POST;
+        unset($mypost['session']);
+
+        $inputdic = "{";
         //store results at directory
+        foreach ($mypost as $key => $value)
+        {
+            file_put_contents($workdir."/".$key, $value); 
+            $inputdic = $inputdic."\\\"".$key."\\\":\\\"".$workdir."/".$key."\\\",";
+        }
+        $inpudic[strlen($inputdic)-1] = '}';
+        $inputdic = substr($inputdic, 0, strlen($inputdic)-1)."}";
+        $outputdic = "{\\\"output\\\":\\\"".$workdir."/output\\\"}";
+        exec($binary." -t ".$_GET["app"]." -i ".$inputdic." -o ".$outputdic);
+        header('Location:result.php?requestsession='.$_POST['session']);
+
         //refresh to result.php?requestsession=value
     }
 
