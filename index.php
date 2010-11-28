@@ -1,7 +1,10 @@
 <?php
+    //table: users
+    //store in table: user - sessioncookie - date
+    //store in table: sessioncookie -  requestcookie - date
 
     $binary = "clnyi.py";
-    #echo exec($binary." -t simple-adder -e {\\\"input\\\":\\\"1+1\\\"}");
+    #TODO: protect app from command line injection
 
     //if $_POST array if empty:
     //Call command to get function index
@@ -10,21 +13,29 @@
         echo exec($binary." -c webindex -p");
         return;
     }
-    if (count($_POST) == 0)
+    elseif (count($_POST) == 0)
     {
         if (isset($_GET["mode"]) && isset($_GET["app"]) && ($_GET["mode"] == "translate"))
         {
-            echo exec($binary." -t webdisplaypage -e {\\\"input\\\":\\\"".$_GET["app"]."\\\"} -o {\\\"output\\\":\\\"stdout\\\"}");
+            $inputdic = "{\\\"input\\\":\\\"".$_GET["app"]."\\\"\\,\\\"session\\\":\\\"".rand()."\\\"}";
+            $outputdic = "{\\\"output\\\":\\\"stdout\\\"}";
+            echo exec($binary." -t webdisplaypage -e ".$inputdic."  -o ".$outputdic);
         }
-        if (isset($_GET["mode"]) && isset($_GET["app"]) && ($_GET["mode"] == "procedure"))
+        elseif (isset($_GET["mode"]) && isset($_GET["app"]) && ($_GET["mode"] == "procedure"))
         {
             echo exec($binary." -c ".$_GET["app"]." -p ");
         }
-
+        else
+        {
+            echo "Unknown mode";
+        }
+        return;
     }
-    //if $_POST only have function key:
-        //call command to get the function form
-    //if $_POST have function and any other key
-        //call command to get execution result
+    else
+    {
+        //generate requestsession directory
+        //store results at directory
+        //refresh to result.php?requestsession=value
+    }
 
 ?>
