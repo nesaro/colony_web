@@ -15,6 +15,7 @@ CREATE TABLE IF NOT EXISTS websession
 create TABLE IF NOT EXISTS apprequest
 (
     appsession INT PRIMARY KEY,
+    app VARCHAR(80) NOT NULL,
     iduser INT NOT NULL,
     tmppath VARCHAR(255)
 );
