@@ -20,7 +20,7 @@
         echo exec($BINARY." -c webindex -p");
         return;
     }
-    elseif (count($_POST) == 0)
+    elseif (count($_POST) == 0 && count($_FILES) == 0)
     {
         if (isset($_GET["mode"]) && isset($_GET["app"]) && ($_GET["mode"] == "translate"))
         {
@@ -62,13 +62,26 @@
             file_put_contents($workdir."/".$key, $value); 
             $inputdic = $inputdic."\\\"".$key."\\\":\\\"".$workdir."/".$key."\\\",";
         }
+        foreach ($_FILES as $key => $value)
+        {
+            move_uploaded_file($value['tmp_name'], $workdir."/".$key); 
+            $inputdic = $inputdic."\\\"".$key."\\\":\\\"".$workdir."/".$key."_wrapper\\\",";
+            file_put_contents($workdir."/".$key."_wrapper", $workdir."/".$key); 
+        }
         $inpudic[strlen($inputdic)-1] = '}';
         $inputdic = substr($inputdic, 0, strlen($inputdic)-1)."}";
-        $outputdic = "{\\\"output\\\":\\\"".$workdir."/output\\\"}";
+        $inputdicout = "{\\\"input\\\":\\\"".$_GET["app"]."\\\"\\}";
+        $outputdicout = "{\\\"output\\\":\\\"stdout\\\"}";
+        $filelistout =  exec($BINARY." -t outputlist -e ".$inputdicout."  -o ".$outputdicout);
+        $filearrayout = explode(',', $filelistout);
+        $outputdic = "{";
+        foreach ($filearrayout as $value) {
+            $outputdic = $outputdic."\\\"".$value."\\\":\\\"".$workdir."/".$value."\\\",";
+        }
+        $outputdic[strlen($outputdic)-1] = '}';
         exec($BINARY." -t ".$_GET["app"]." -i ".$inputdic." -o ".$outputdic);
         header('Location:result.php?requestsession='.$_POST['session']);
 
-        //refresh to result.php?requestsession=value
     }
 
 ?>
