@@ -9,7 +9,7 @@
 
 ?>
 <?php
-
+    include('lib.php');
 //Results:
 //If not $_GET && not $_POST,
 //show a list of results for current user.
@@ -36,8 +36,8 @@
         $query = "SELECT * FROM apprequest WHERE appsession='".mysql_real_escape_string($_GET['requestsession'])."';";
         $result = mysql_query($query) or die(mysql_error());
         $info = mysql_fetch_array( $result );
-        $inputdic = "{\\\"input\\\":\\\"".$info["app"]."\\\"\\}";
-        $outputdic = "{\\\"output\\\":\\\"stdout\\\"}";
+        $inputdic = arrayToDic(array("input" => $info["app"]));
+        $outputdic = arrayToDic(array("output" => "stdout"));
         $filelist =  exec($BINARY." -t outputlist -e ".$inputdic."  -o ".$outputdic);
         $filearray = explode(',', $filelist);
         foreach ($filearray as $value) {

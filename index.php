@@ -10,7 +10,7 @@
 ?>
     <a href="do_logout.php">Logout</a>
 <?php
-
+    include('lib.php');
     #FIXME: protect app var from command line injection
 
     //if $_POST array if empty:
@@ -24,8 +24,8 @@
     {
         if (isset($_GET["mode"]) && isset($_GET["app"]) && ($_GET["mode"] == "translate"))
         {
-            $inputdic = "{\\\"input\\\":\\\"".$_GET["app"]."\\\"\\,\\\"session\\\":\\\"".rand()."\\\"}";
-            $outputdic = "{\\\"output\\\":\\\"stdout\\\"}";
+            $inputdic = arrayToDic(array("input" => $_GET["app"], "session" => rand()));
+            $outputdic = arrayToDic(array("output" => "stdout"));
             echo exec($BINARY." -t webdisplaypage -e ".$inputdic."  -o ".$outputdic);
         }
         elseif (isset($_GET["mode"]) && isset($_GET["app"]) && ($_GET["mode"] == "procedure"))
@@ -60,20 +60,22 @@
         foreach ($mypost as $key => $value)
         {
             file_put_contents($workdir."/".$key, $value); 
-            $inputdic = $inputdic."\\\"".$key."\\\":\\\"".$workdir."/".$key."\\\",";
+            $inputdic .= "\\\"".$key."\\\":\\\"".$workdir."/".$key."\\\",";
         }
         foreach ($_FILES as $key => $value)
         {
             move_uploaded_file($value['tmp_name'], $workdir."/".$key); 
-            $inputdic = $inputdic."\\\"".$key."\\\":\\\"".$workdir."/".$key."_wrapper\\\",";
+            $inputdic .= "\\\"".$key."\\\":\\\"".$workdir."/".$key."_wrapper\\\",";
             file_put_contents($workdir."/".$key."_wrapper", $workdir."/".$key); 
         }
         $inpudic[strlen($inputdic)-1] = '}';
         $inputdic = substr($inputdic, 0, strlen($inputdic)-1)."}";
-        $inputdicout = "{\\\"input\\\":\\\"".$_GET["app"]."\\\"\\}";
-        $outputdicout = "{\\\"output\\\":\\\"stdout\\\"}";
+
+        $inputdicout = arrayToDic(array("input" => $_GET["app"]));
+        $outputdicout = arrayToDic(array("output" => "stdout"));
         $filelistout =  exec($BINARY." -t outputlist -e ".$inputdicout."  -o ".$outputdicout);
         $filearrayout = explode(',', $filelistout);
+
         $outputdic = "{";
         foreach ($filearrayout as $value) {
             $outputdic = $outputdic."\\\"".$value."\\\":\\\"".$workdir."/".$value."\\\",";
