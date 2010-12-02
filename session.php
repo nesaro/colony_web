@@ -12,7 +12,7 @@ function checkSession()
     }
     else
     {
-        $query = "SELECT * FROM websession WHERE websession='".$_COOKIE['ids']."'";
+        $query = "SELECT * FROM websession WHERE websession='".mysql_real_escape_string($_COOKIE['ids'])."'";
         $result = mysql_query($query) or die(mysql_error());
         $info = mysql_fetch_array( $result );
         return $info['iduser'];

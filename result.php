@@ -33,7 +33,7 @@
     elseif ((count($_GET) == 1) && isset($_GET['requestsession']))
     {
         echo '<a href="do_logout.php">Logout</a>';
-        $query = "SELECT * FROM apprequest WHERE appsession='".$_GET['requestsession']."';";
+        $query = "SELECT * FROM apprequest WHERE appsession='".mysql_real_escape_string($_GET['requestsession'])."';";
         $result = mysql_query($query) or die(mysql_error());
         $info = mysql_fetch_array( $result );
         $inputdic = "{\\\"input\\\":\\\"".$info["app"]."\\\"\\}";
@@ -46,7 +46,7 @@
     }
     elseif ((count($_GET) > 1) && isset($_GET['output']))
     {
-        $query = "SELECT * FROM apprequest WHERE appsession='".$_GET['requestsession']."';";
+        $query = "SELECT * FROM apprequest WHERE appsession='".mysql_real_escape_string($_GET['requestsession'])."';";
         $result = mysql_query($query) or die(mysql_error());
         $info = mysql_fetch_array( $result );
         //header("Content-Disposition: attachment; filename=".$_GET['output'].".txt");

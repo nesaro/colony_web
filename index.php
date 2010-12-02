@@ -46,7 +46,7 @@
         $workdir = $tmpdir."/".$_POST["session"];
         mkdir($workdir);
         //store dir in requestsession table
-        $query = "INSERT INTO apprequest (appsession, app, iduser, tmppath) VALUES ('".$_POST["session"]."','".$_GET["app"]."','".$uid."','".$workdir."')";
+        $query = "INSERT INTO apprequest (appsession, app, iduser, tmppath) VALUES ('".mysql_real_escape_string($_POST["session"])."','".mysql_real_escape_string($_GET["app"])."','".mysql_real_escape_string($uid)."','".mysql_real_escape_string($workdir)."')";
         mysql_query($query) or die(mysql_error());
 
 
