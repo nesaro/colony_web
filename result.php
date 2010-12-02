@@ -17,7 +17,7 @@
 
     if (count($_GET) == 0)
     {
-        echo '<a href="do_logout.php">Logout</a>';
+        echo '<a href="do_logout.php">Logout</a><br />';
         $query = "SELECT * FROM apprequest WHERE iduser='".$uid."';";
         $result = mysql_query($query) or die(mysql_error());
         //ask db for every
@@ -32,7 +32,7 @@
     }
     elseif ((count($_GET) == 1) && isset($_GET['requestsession']))
     {
-        echo '<a href="do_logout.php">Logout</a>';
+        echo '<a href="do_logout.php">Logout</a><br />';
         $query = "SELECT * FROM apprequest WHERE appsession='".mysql_real_escape_string($_GET['requestsession'])."';";
         $result = mysql_query($query) or die(mysql_error());
         $info = mysql_fetch_array( $result );
