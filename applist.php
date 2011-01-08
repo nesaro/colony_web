@@ -25,12 +25,14 @@
     {
         if (isset($_GET["mode"]) && isset($_GET["app"]) && ($_GET["mode"] == "translate"))
         {
+            checkColonyName($_GET["app"]);
             $inputdic = arrayToDic(array("input" => $_GET["app"], "session" => rand()));
             $outputdic = arrayToDic(array("output" => "stdout"));
             echo exec($BINARY." -t webdisplaypage -e ".$inputdic."  -o ".$outputdic);
         }
         elseif (isset($_GET["mode"]) && isset($_GET["app"]) && ($_GET["mode"] == "procedure"))
         {
+            checkColonyName($_GET["app"]);
             echo exec($BINARY." -c ".$_GET["app"]." -p ");
         }
         else
@@ -41,6 +43,7 @@
     }
     else
     {
+        checkColonyName($_GET["app"]);
         //generate requestsession directory
         $tmpdir = sys_get_temp_dir();
         //TODO: check if directory already exists
