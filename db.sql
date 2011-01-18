@@ -25,10 +25,10 @@ create TABLE IF NOT EXISTS apprequest
 create TABLE IF NOT EXISTS userlevel
 (
     id INT AUTO_INCREMENT PRIMARY KEY,
-    name VARCHAR("12"),
-    description TEXT
+    name VARCHAR(12) NOT NULL,
+    description TEXT NOT NULL
 );
 
-INSERT INTO userlevel ('name','description') VALUES ('Basic','restricted library, ads, no personal space, no fee');
-INSERT INTO userlevel ('name','description') VALUES ('Standard','less restricted library, no ads, 10MB personal space, small fee');
-INSERT INTO userlevel ('name','description') VALUES ('Premium','full access library, no ads, 1GB personal space, big fee');
+INSERT INTO userlevel (name,description) VALUES ('Basic','restricted library, ads, no personal space, no fee');
+INSERT INTO userlevel (name,description) VALUES ('Standard','less restricted library, no ads, 10MB personal space, small fee');
+INSERT INTO userlevel (name,description) VALUES ('Premium','full access library, no ads, 1GB personal space, big fee');
